@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button
+        {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/create" method="POST">
+        <button type="submit">create</button>
+    </form>
+    <div id="all">
+    </div>
+</body>
+<script>
+let url="http://localhost/form";
+    let da=document.getElementById('all');
+function getdata()
+{
+    console.log("api data");
+    fetch(url).then((response)=>
+    {
+        return response.json();
+    }).then((data)=>
+    { 
+        console.log(data); 
+        shwoData(data);
+    })
+}
+const shwoData=(data)=>
+{
+    let dHtml="";
+    data.forEach(function(element,index)
+    {
+        dHtml+=`<div class='collection'>
+            <p>name : ${element.name} </p> <br>
+            <p>email: ${element.email} </p> <br>
+            <form action="/delete" method="POST" >
+            <button type="submit" name="id" value="${element._id}">delete</button>
+            </form>
+            <form action="/update" method="POST">
+            <button type="submit" name="id" value="${element._id}">update</button>
+            </form>
+            <p>________________________</p>
+            </div>`;
+             ///da.innerHTML=dHtml;
+    })
+    da.innerHTML=dHtml;
+}
+getdata();
+</script>
+</html>
